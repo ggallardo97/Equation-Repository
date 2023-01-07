@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Agregar categoría</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="../assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../assets/css/fonts.css" rel="stylesheet" type="text/css">
+    <link href="../assets/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body id="page-top" style="background-color: #f8f9fc;">
+
+    <div class="col-lg-8" style="margin: 0 auto;">
+        <div class="p-5">
+            <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Carga de datos</h1>
+            </div>
+            <form class="user">
+
+                <div class="form-group">
+                    <label for="area">Área</label>
+                    <select name="area" id="area" class="form-control form-control-user2" required>
+                        <option value="math">Matematica</option>
+                        <option value="physics">Fisica</option>
+                        <option value="chimestry">Quimica</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="category">Categoría</label>
+                    <input type="text" class="form-control form-control-user" name="category" id="category" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-user btn-block" id="agregarPersonal">Agregar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Insert this line above script imports  -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="../assets/js/jquery-3.6.0.js"></script>
+    <script src="../assets/js/jquery-ui.min.js"></script>
+    <script src="../assets/js/sweetalert.min.js"></script>
+    <script src="../assets/js/jquery.easing.min.js"></script>
+    <script src="../assets/js/createCategory.js"></script>
+ 
+    <!-- Insert this line after script imports -->
+    <script>if (window.module) module = window.module;</script>
+</body>
+
+</html>
