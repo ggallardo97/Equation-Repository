@@ -358,7 +358,7 @@ const templateMenu = [
         label  : 'Archivo',
         submenu: [
             {
-                label :'Agregar formula',
+                label :'Agregar fórmula',
                 click(){
                     createNewNoteWindow();
                 }
@@ -382,7 +382,7 @@ const templateMenu = [
         label : 'Ayuda',
         submenu: [
             {
-                label : 'Como agregar formulas',
+                label : 'Cómo agregar fórmulas',
                 click(){
                     equationFormattingHelperWindow();
                 }
