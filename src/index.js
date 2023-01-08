@@ -4,11 +4,8 @@ const url  = require('url');
 const path = require('path');
 const mongoose   = require('mongoose');
 const { create } = require('domain');
+const dbFunctions = require('../helpers/dbFunctions');
 const dbconn = process.env.CONNECTION_DB;
-
-//DB Models
-const Note     = require('../models/noteModel');
-const Category = require('../models/categoryModel');
 
 mongoose.set('strictQuery', true);
 
@@ -24,90 +21,6 @@ let newNoteWindow;
 let newCategoryWindow;
 let newHelperWindow;
 let newErrorWindow;
-
-//Functions for DB
-async function createNote(newNote){
-
-    let note = new Note({
-        title: newNote.title,
-        equation: newNote.equation,
-        unit: newNote.unit,
-        description: newNote.description,
-        category: newNote.category
-    });
-
-    return await note.save();
-}
-
-async function createCategory(newCategory){
-
-    let category = new Category({
-        category: newCategory.category,
-        area: newCategory.area
-    });
-
-    return await category.save();
-}
-
-async function getCategories(){
-
-    let categoriesList = await Category.find();
-
-    return categoriesList;
-}
-
-async function getCategoriesByArea(area){
-
-    let filter = { area : area};
-
-    let categoriesList = await Category.find(filter);
-
-    return categoriesList;
-}
-
-async function getNotesByCategory(category){
-
-    let filter = { category };
-
-    let notesList = await Note.find(filter).populate('category');
-
-    return notesList;
-}
-
-async function deleteNotesByID(idnote){
-
-    await Note.findByIdAndDelete(idnote);
-
-}
-
-async function editNoteByID(newDataNote){
-
-    await Note.findByIdAndUpdate(newDataNote.id, {
-        $set:{
-            title : newDataNote.title,
-            equation : newDataNote.equation,
-            unit : newDataNote.unit,
-            description : newDataNote.description
-        }
-    });
-
-}
-
-async function deleteCategoryByID(idcategory){
-
-    await Category.findByIdAndDelete(idcategory);
-
-}
-
-async function editCategoryByID(newDataCategory){
-
-    await Category.findByIdAndUpdate(newDataCategory.id, {
-        $set:{
-            category : newDataCategory.category
-        }
-    });
-
-}
 
 //DB connection
 mongoose.connect(dbconn)
@@ -246,7 +159,7 @@ function equationFormattingHelperWindow(){
 //Get all categories and send to mainWindow
 ipcMain.on('get-categories', async(e, req) => {
     try{
-        let categories = await getCategories();
+        let categories = await dbFunctions.getCategories();
         mainWindow.webContents.send('get-categories', JSON.stringify(categories));  
     }catch(err){
 
@@ -257,7 +170,7 @@ ipcMain.on('get-categories', async(e, req) => {
 //Get all categories from an area and send to mainWindow
 ipcMain.on('get-categories-area', async(e, req) => {
     try{
-        let categoriesArea = await getCategoriesByArea(req.area);
+        let categoriesArea = await dbFunctions.getCategoriesByArea(req.area);
         mainWindow.webContents.send('get-categories-area', JSON.stringify(categoriesArea)); 
     }catch(err){
 
@@ -268,7 +181,7 @@ ipcMain.on('get-categories-area', async(e, req) => {
 //Get all categories and send to newNoteWindow
 ipcMain.on('get-categories-form', async(e, req) => {
     try{
-        let categories = await getCategories();
+        let categories = await dbFunctions.getCategories();
         newNoteWindow.webContents.send('get-categories-form', JSON.stringify(categories));  
     }catch(err){
 
@@ -279,7 +192,7 @@ ipcMain.on('get-categories-form', async(e, req) => {
 //Get notes by category and send to mainWindow
 ipcMain.on('get-notes-category', async(e, req) => {
     try{
-        let notes = await getNotesByCategory(req.category);
+        let notes = await dbFunctions.getNotesByCategory(req.category);
         mainWindow.webContents.send('get-notes-category', JSON.stringify(notes));  
     }catch(err){
 
@@ -290,7 +203,7 @@ ipcMain.on('get-notes-category', async(e, req) => {
 //New note
 ipcMain.on('new-note', async(e, newNote) => {
     try{
-        await createNote(newNote);
+        await dbFunctions.createNote(newNote);
         newNoteWindow.webContents.send('new-note-res', JSON.stringify({ res : 'ok' })); 
     }catch(err){
         newNoteWindow.webContents.send('new-note-res', JSON.stringify({ res : 'error' })); 
@@ -300,7 +213,7 @@ ipcMain.on('new-note', async(e, newNote) => {
 //New category
 ipcMain.on('new-category', async(e, newCategory) => {
     try{
-        await createCategory(newCategory);
+        await dbFunctions.createCategory(newCategory);
         newCategoryWindow.webContents.send('new-category-res', JSON.stringify({ res : 'ok' })); 
     }catch(err){
         newCategoryWindow.webContents.send('new-category-res', JSON.stringify({ res : 'error' }));
@@ -311,7 +224,7 @@ ipcMain.on('new-category', async(e, newCategory) => {
 //Delete a note
 ipcMain.on('delete-note', async(e, req) => {
     try{
-        await deleteNotesByID(req.id);
+        await dbFunctions.deleteNotesByID(req.id);
         mainWindow.webContents.send('delete-note-res', JSON.stringify({ res : 'ok' })); 
     }catch(err){
         mainWindow.webContents.send('delete-note-res', JSON.stringify({ res : 'error' })); 
@@ -322,7 +235,7 @@ ipcMain.on('delete-note', async(e, req) => {
 //Edit a note
 ipcMain.on('edit-note', async(e, req) => {
     try{
-        await editNoteByID(req);
+        await dbFunctions.editNoteByID(req);
         mainWindow.webContents.send('edit-note-res', JSON.stringify({ res : 'ok' })); 
     }catch(err){
         mainWindow.webContents.send('edit-note-res', JSON.stringify({ res : 'error' })); 
@@ -330,10 +243,22 @@ ipcMain.on('edit-note', async(e, req) => {
     
 });
 
+//Search a note
+ipcMain.on('search-note', async(e, req) => {
+    try{
+        const notes = await dbFunctions.searchNote(req);
+        console.log(notes);
+        mainWindow.webContents.send('search-note-res', JSON.stringify(notes)); 
+    }catch(err){
+        mainWindow.webContents.send('search-note-res', JSON.stringify({ res : 'error' })); 
+    }
+    
+});
+
 //Delete a category
 ipcMain.on('delete-category', async(e, req) => {
     try{
-        await deleteCategoryByID(req.id);
+        await dbFunctions.deleteCategoryByID(req.id);
         mainWindow.webContents.send('delete-category-res', JSON.stringify({ res : 'ok' })); 
     }catch(error){
         mainWindow.webContents.send('delete-category-res', JSON.stringify({ res : 'error' }));
@@ -344,7 +269,7 @@ ipcMain.on('delete-category', async(e, req) => {
 //Edit a category
 ipcMain.on('edit-category', async(e, req) => {
     try{
-        await editCategoryByID(req);
+        await dbFunctions.editCategoryByID(req);
         mainWindow.webContents.send('edit-category-res', JSON.stringify({ res : 'ok' })); 
     }catch(err){
         mainWindow.webContents.send('edit-category-res', JSON.stringify({ res : 'error' })); 

@@ -2,6 +2,8 @@ $(document).ready(function(){ //Delete a note
 
     $(document).on('click','.delete', function(e){
 
+        const { ipcRenderer } = require('electron');
+
         e.preventDefault();
         const idNote = $(this).data('id');
 

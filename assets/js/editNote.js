@@ -2,6 +2,8 @@ $(document).ready(function(){ //Edit a note
 
     $(document).on('click','.edit', function(e){
 
+        const { ipcRenderer } = require('electron');
+
         e.preventDefault();
         const id          = $(this).data('id');
         const title       = $(this).data('title');

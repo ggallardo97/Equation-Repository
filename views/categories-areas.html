@@ -96,10 +96,10 @@
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..."
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..." id="searchNote" name="searchNote"
                                 aria-label="Search" aria-describedby="basic-addon2" required>
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" id="searchNoteBtn" type="button">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
@@ -120,11 +120,11 @@
                                 aria-labelledby="searchDropdown">
                                 <form class="form-inline mr-auto w-100 navbar-search">
                                     <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
+                                        <input type="text" class="form-control bg-light border-0 small" id="searchNote" name="searchNote"
                                             placeholder="Buscar..." aria-label="Search"
                                             aria-describedby="basic-addon2" required>
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
+                                            <button class="btn btn-primary" id="searchNoteBtn" type="button">
                                                 <i class="fas fa-search fa-sm"></i>
                                             </button>
                                         </div>
@@ -205,6 +205,7 @@
     <script src="../assets/js/getCategories.js"></script>
     <script src="../assets/js/deleteCategory.js"></script>
     <script src="../assets/js/editCategory.js"></script>
+    <script src="../assets/js/goToSearchNote.js"></script>
 
     <!-- Insert this line after script imports -->
     <script>if (window.module) module = window.module;</script>

@@ -2,6 +2,8 @@ $(document).ready(function(){ //Delete a category
 
     $(document).on('click','.delete', function(e){
 
+        const { ipcRenderer } = require('electron');
+
         e.preventDefault();
         const id = $(this).data('id');
 

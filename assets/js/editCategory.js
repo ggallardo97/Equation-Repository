@@ -2,6 +2,8 @@ $(document).ready(function(){ //Edit a category
 
     $(document).on('click','.edit', function(e){
 
+        const { ipcRenderer } = require('electron');
+
         e.preventDefault();
         const id       = $(this).data('id');
         const category = $(this).data('category');
