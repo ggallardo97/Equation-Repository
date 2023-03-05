@@ -20,7 +20,7 @@ Pensada como una aplicación para guardar fórmulas y ecuaciones, y recuperarlas
 
 Inicialmente, debes tener instalado "Nodejs" y "MongoDB". A continuación algunos comandos útiles:
 ```bash
-  git clone Equation-Repository
+  git clone https://github.com/ggallardo97/Equation-Repository
   cd Equation-Repository
   npm start
 ```
