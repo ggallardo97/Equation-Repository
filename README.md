@@ -22,6 +22,7 @@ Inicialmente, debes tener instalado "Nodejs" y "MongoDB". A continuación alguno
 ```bash
   git clone https://github.com/ggallardo97/Equation-Repository
   cd Equation-Repository
+  npm install
   npm start
 ```
     
